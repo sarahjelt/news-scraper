@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+{{!--   <link rel="stylesheet" href="/assets/css/reset.css" type="text/css" /> --}}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/public/assets/css/style.css" type="text/css" />
+  <title>News Scraper</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  {{!<script src="/assets/js/logic.js"></script> --}}
+  {{!-- <link rel="icon" href="/assets/images/favicon.png" /> --}}
+</head>
+<body>
+  <nav class="navbar fixed-top">
+    <a class="navbar-brand" href="/">News Scraper</a>
+    <div class="collapse navbar-collapse">
+      <div class="navbar-nav">
+        <a class="nav-left nav-item nav-link" href="/">Home</a>
+        <a class="nav-left nav-item nav-link" href="/saved">Saved Articles</a>
+      </div>
+    </div>
+  </nav>
+  {{{body}}}
+  <div class="footer row">
+    <div class="footer-content">
+        <p>Copyright &copy 2018</p>
+    </div>
+  </div>
+</body>
+</html>
