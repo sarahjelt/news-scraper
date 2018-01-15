@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
-{{!--   <link rel="stylesheet" href="/assets/css/reset.css" type="text/css" /> --}}
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/public/assets/css/style.css" type="text/css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <title>News Scraper</title>
   <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-  {{!<script src="/assets/js/logic.js"></script> --}}
+  <link type="text/css" rel="stylesheet" href="/public/assets/css/materialize.min.css"  media="screen,projection"/>
+  <link rel="stylesheet" href="/public/assets/css/style.css" type="text/css" />
+  <script src="/public/assets/js/app.js"></script>
   {{!-- <link rel="icon" href="/assets/images/favicon.png" /> --}}
 </head>
 <body>
-  <nav class="navbar fixed-top">
-    <a class="navbar-brand" href="/">News Scraper</a>
-    <div class="collapse navbar-collapse">
-      <div class="navbar-nav">
-        <a class="nav-left nav-item nav-link" href="/">Home</a>
-        <a class="nav-left nav-item nav-link" href="/saved">Saved Articles</a>
+  <header>
+    <nav>
+      <div class="nav-wrapper light-green darken-1">
+        <a class="brand-logo center" href="/">News Scraper</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="/">Home</a></li>
+          <li><a href="/saved">Saved Articles</a></li>
+          {{> buttons/scrape-new-block}}
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <main>
+    {{{body}}}
+  </main>
+  <footer class="light-green lighten-2 page-footer">
+    <div class="container">
+      <div class="row">
+        <p><span class="grey-text text-darken-3">Copyright &copy 2018</span></p>
       </div>
     </div>
-  </nav>
-  {{{body}}}
-  <div class="footer row">
-    <div class="footer-content">
-        <p>Copyright &copy 2018</p>
-    </div>
-  </div>
+  </footer>
 </body>
 </html>
