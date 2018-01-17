@@ -17,6 +17,12 @@ main {
   color: white;
 }
 
+.deleter {
+  margin-left: 15px;
+  cursor: pointer;
+  text-align: right;
+}
+
 /* a {
   text-decoration: none;
   color: white;

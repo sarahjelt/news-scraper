@@ -1,5 +1,5 @@
 const express = require("express");
-const methodOverride = require("method-override");
+// const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
@@ -55,37 +55,71 @@ app.get("/scrape", function(req, res) {
   })
 });
 
-// route for getting all articles from db
-app.get("/articles", function (req, res) {
+// route for getting ALL articles from db
+app.get("/api/articles", function (req, res) {
   db.Article.find({})
-    .then((articles) => res.json(articles))
+    .then((dbArticle) => res.json(dbArticle))
     .catch(error => res.send(error))
 });
 
-// route for getting all SAVED articles from db
-app.get("/articles-saved", function (req, res) {
+// route for getting specific article by ID and populating w/ its notes
+// app.get("/api/articles/:id", function (req, res) {
+//   db.Article.findById(req.params.id)
+//     .populate("Note")
+//     .then((dbArticle) => res.json(dbArticle))
+//     .catch(error => res.send(error))
+// });
+
+// route for getting ONLY SAVED articles from db
+app.get("/api/saved-articles", function (req, res) {
   db.Article.find({saved: true})
     .then((articlesSaved) => res.json(articlesSaved))
     .catch(error => res.send(error))
 });
 
+// route for getting ONLY UNSAVED articles from db
+app.get("/api/unsaved-articles", function (req, res) {
+  db.Article.find({saved: false})
+    .then((articlesUnsaved) => res.json(articlesUnsaved))
+    .catch(error => res.send(error))
+});
+
+// route for SAVING articles
+app.post("/save/:id", function(req, res) {
+  db.Article.findByIdAndUpdate(req.params.id, {saved: true})
+    .then((dbArticle) => res.redirect("/"));
+});
+
+//route for UNSAVING articles
+app.post("/unsave/:id", function(req, res) {
+  db.Article.findByIdAndUpdate(req.params.id, {saved: false})
+    .then((dbArticle) => res.redirect("/"));
+});
+
+
 // route for grabbing specific article by ID, populating it with its note
-app.get("/articles/:id", function(req, res) {
+app.get("/api/articles/:id", function(req, res) {
   db.Article.findOne({_id: req.params.id})
-    .populate("note")
-    .then(article => res.json(article))
+    .populate("Note")
+    .then(dbArticle => res.json(dbArticle))
     .catch(error => res.send(error))
 });
 
 // route for saving/updating article's associated note
-app.post("/articles/:id", function(req, res) {
+app.post("/api/articles/:id", function(req, res) {
   db.Note
     .create(req.body)
-    .then(note => {
-      db.Article.findByIdAndUpdate(req.params.id, {note: note._id})
-        .then(note => res.json(note))
-        .catch(error => res.send(error))
+    .then(function(note) {
+      return db.Article.findByIdAndUpdate(req.params.id, {note: note._id}, {new: true});
+
     })
+    .then(dbArticle => res.json(dbArticle))
+    .catch(error => res.send(error))
+});
+
+app.get("/api/notes", function(req, res) {
+  db.Note.find({})
+    .then(dbNote => res.json(dbNote))
     .catch(error => res.send(error))
 });
 

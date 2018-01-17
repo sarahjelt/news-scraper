@@ -7,6 +7,7 @@
   <link type="text/css" rel="stylesheet" href="/public/assets/css/materialize.min.css"  media="screen,projection"/>
   <link rel="stylesheet" href="/public/assets/css/style.css" type="text/css" />
   <script src="/public/assets/js/app.js"></script>
+  <script src="/public/assets/js/materialize.min.js"></script>
   {{!-- <link rel="icon" href="/assets/images/favicon.png" /> --}}
 </head>
 <body>
@@ -17,12 +18,6 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="/">Home</a></li>
           <li><a href="/saved">Saved Articles</a></li>
-          {{> buttons/scrape-new-block}}
-        </ul>
-      </div>
-    </nav>
-  </header>
-  <main>
     {{{body}}}
   </main>
   <footer class="light-green lighten-2 page-footer">
