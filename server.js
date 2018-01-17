@@ -63,12 +63,12 @@ app.get("/api/articles", function (req, res) {
 });
 
 // route for getting specific article by ID and populating w/ its notes
-// app.get("/api/articles/:id", function (req, res) {
-//   db.Article.findById(req.params.id)
-//     .populate("Note")
-//     .then((dbArticle) => res.json(dbArticle))
-//     .catch(error => res.send(error))
-// });
+app.get("/api/articles/:id", function (req, res) {
+  db.Article.findById(req.params.id)
+    .populate("note")
+    .then((dbArticle) => res.json(dbArticle))
+    .catch(error => res.send(error))
+});
 
 // route for getting ONLY SAVED articles from db
 app.get("/api/saved-articles", function (req, res) {
@@ -100,27 +100,53 @@ app.post("/unsave/:id", function(req, res) {
 // route for grabbing specific article by ID, populating it with its note
 app.get("/api/articles/:id", function(req, res) {
   db.Article.findOne({_id: req.params.id})
-    .populate("Note")
+    .populate("note")
     .then(dbArticle => res.json(dbArticle))
-    .catch(error => res.send(error))
+    .catch(error => res.json(error))
 });
 
 // route for saving/updating article's associated note
 app.post("/api/articles/:id", function(req, res) {
   db.Note
     .create(req.body)
-    .then(function(note) {
-      return db.Article.findByIdAndUpdate(req.params.id, {note: note._id}, {new: true});
-
+    .then(function(dbNote) {
+      return db.Article.findByIdAndUpdate(req.params.id, { $push: {note: dbNote._id} }, {new: true});
     })
-    .then(dbArticle => res.json(dbArticle))
-    .catch(error => res.send(error))
+    .then(function(dbArticle) {
+      res.json(dbArticle)
+    })
+    .catch(function(error) {
+      res.json(error)
+    })
 });
 
-app.get("/api/notes", function(req, res) {
-  db.Note.find({})
-    .then(dbNote => res.json(dbNote))
-    .catch(error => res.send(error))
+// app.post("/api/notes", function(req, res) {
+//   db.Note.insert(req.body, function(error, saved) {
+//     if (error) {
+//       console.log(error);
+//     } else {
+//       res.send(saved);
+//     }
+//   })
+// });
+
+// route to delete notes from saved articles -- DOESN'T WORK YET
+app.get("/delete/:id", function(req, res) {
+  db.Note.remove(
+    {
+      _id: req.params.id
+    },
+    function(error, removed) {
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        console.log(removed);
+        res.send(removed);
+      }
+    }
+  )
 });
 
 // server start
