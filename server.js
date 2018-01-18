@@ -147,6 +147,21 @@ app.get("/delete/:id", function(req, res) {
       }
     }
   )
+  // db.Article.remove(
+  //   {
+  //     note: req.params.id
+  //   },
+  //   function(error, removed) {
+  //     if (error) {
+  //       console.log(error);
+  //       res.send(error);
+  //     }
+  //     else {
+  //       console.log(removed);
+  //       res.send(removed);
+  //     }
+  //   }
+  // );
 });
 
 // server start

@@ -4,7 +4,7 @@ $(document).ready(function() {
   $(document).on("click", ".unsave", unsaveArticle);
   $(document).on("click", ".notes", notesHandler);
   $(document).on("click", ".add-note", addNote);
-  $(document).on("click", ".delete-note", deleteNote);
+  $(document).on("click", ".deleter", deleteNote);
   $(document).on("click", ".scrape", scrapeArts);
 
 
@@ -75,15 +75,32 @@ $(document).ready(function() {
 
   // when you click NOTES on saved article
   function notesHandler() {
+
+    //remove data-id of add-note (from previous article that was clicked into with Notes)
     $(".add-note").attr("data-id", "");
 
+    //data-id of article you're in
     var noteId = $(this).attr("data-id");
 
+    //adds id of article you're in to data-id
     $(".add-note").attr("data-id", noteId);
 
+    //empties saved-notes div of notes from previous art -- but they weren't there to begin with??
     $(".saved-notes").empty();
 
-    $(".saved-notes").prepend("<div data-id='" + noteId + "'><p>" + noteId + "<span class='deleter deep-orange-text text-darken-3'>X</span></p></div>");
+    $.ajax({
+      method: "GET",
+      url: "/api/articles/" + noteId
+    })
+    .then(function(data) {
+      console.log(data);
+      for (var i = 0; i < data.note.length; i++) {
+        $(".saved-notes").prepend("<div class='to-be-deleted'><p>" + data.note[i].body + "<span class=' deleter deep-orange-text text-darken-3' data-id='" + data.note[i]._id + "'>X</span></p></div>");
+      }
+      // This note doesn't stick
+      $("#note-content").val("");
+    })
+
       $("#note-title").val("");
       $("#note-content").val("");
   };
@@ -114,43 +131,29 @@ $(document).ready(function() {
       }
     })
     .then(function(data) {
-      console.log(artNotes);
-      $(".saved-notes").prepend("<div data-id='" + data._id + "'><p>" + data.body + "<span class='deleter deep-orange-text text-darken-3'>X</span></p></div>");
-      $("#note-title").val("");
+      var newHotness = $("#note-content").val();
+      console.log(data);
+      $(".saved-notes").prepend("<div class='to-be-deleted'><p>" + newHotness + "<span class=' deleter deep-orange-text text-darken-3' data-id='" + data.note.slice(-1)[0] + "'>X</span></p></div>");
+      // This note is undefined, can't get body through post route
+
+      //empties text input
       $("#note-content").val("");
     })
   };
 
-  // function renderNotes(data) {
-  //   var allNotes = [];
-  //   var currentNote;
-  //   if (!data.note.length) {
-  //     currentNote = ["<li class='list-group-item'", "No notes yet.", "</li>"].join("");
-  //     allNotes.push(currentNote);
-  //   } else {
-  //     for (var i = 0; i < data.note.length; i++) {
-  //       currentNote = $(
-  //         [
-  //           "<li class='list-group-item noto'>",
-  //           data.note[i].body,
-  //           "<span class='deleter deep-orange-text text-darken-3'>X</span>",
-  //           "</li>"
-  //         ].join("")
-  //       );
-  //       currentNote.children("span").data("_id", data.note[i]._id);
-  //       allNotes.push(currentNote);
-  //     }
-  //   }
-  //   $(".saved-notes").append(notesToRender);
-  // };
-
   // click on X next to notes -- doesn't work yet
   function deleteNote() {
-    var toBeDeleted = $(this).parent().parent();
+    var toBeDeleted = $(this).find(".to-be-deleted");
+    var thisId = $(this).attr("data-id");
+    console.log(thisId);
 
     $.ajax({
       type: "GET",
-      url: "/delete/" + toBeDeleted.attr("data-id")
+      url: "/delete/" + thisId,
+      success: function(response) {
+        toBeDeleted.remove();
+        $("#note-content").val("");
+      }
     })
   };
 
