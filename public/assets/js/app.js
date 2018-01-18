@@ -96,6 +96,7 @@ $(document).ready(function() {
       for (var i = 0; i < data.note.length; i++) {
         $(".saved-notes").prepend("<div class='to-be-deleted'><p>" + data.note[i].body + "<span class=' deleter deep-orange-text text-darken-3' data-id='" + data.note[i]._id + "'>X</span></p></div>");
       }
+      $(".notes-header").html("<h4>Notes for " + data.headline + "</h4>");
       $("#note-content").val("");
     })
 
