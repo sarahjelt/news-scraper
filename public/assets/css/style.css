@@ -13,7 +13,6 @@ main {
 }
 
 .btn-flat {
-  /* background-color: dodgerblue; */
   color: white;
 }
 
@@ -23,74 +22,11 @@ main {
   text-align: right;
 }
 
-/* a {
-  text-decoration: none;
-  color: white;
-} */
-
-/* nav.navbar {
-  margin-bottom: 0; */
-  /* background-color: #aef2d9; */
-/* } */
-
-/* .brand-logo {
-  font-size: 22px;
-  margin-top: 3px;
-} */
-
-/* a.brand-logo:hover,
-a.brand-logo:focus,
-a.brand-logo:active {
-  color: #ea5a3a;
-} */
-
-/* .navbar-nav{
-  margin-top: 16px;
+.parallax-container {
+  height: 350px;
+  background-size
 }
 
-a.nav-left {
-  padding: 15px;
-  margin-left: 15px;
-  font-size: 18px;
-}
-
-a.nav-left:hover,
-a.nav-left:focus,
-a.nav-left:active {
-  text-decoration: none; */
-  /* background-color: #ea5a3a; */
-  /* color: white;
-} */
-
-/* .container {
-  margin: 0 auto;
+.para {
   width: 100%;
-  min-height: 100%;
-  padding-right: 0;
-  padding-left: 0;
 }
-
-.row {
-  padding: 15px 60px 15px 75px;
-}
-
-.jumbotron {
-  width: 100%;
-  height: 25em; */
-  /* background-color: white; */
-  /* text-align: center;
-}
-
-.footer {
-  height: 8em; */
-  /* background-color: white; */
-  /* text-align: center;
-} */
-
-/*@media screen and (max-width: 700px) {
-
-}
-
-@media screen and (max-width: 500px) {
-
-}*/

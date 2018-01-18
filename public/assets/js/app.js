@@ -7,6 +7,7 @@ $(document).ready(function() {
   $(document).on("click", ".deleter", deleteNote);
   $(document).on("click", ".scrape", scrapeArts);
 
+  $('.parallax').parallax();
 
   initialize();
   renderSavedArts();

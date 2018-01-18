@@ -1,5 +1,4 @@
 const express = require("express");
-// const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
@@ -120,16 +119,6 @@ app.post("/api/articles/:id", function(req, res) {
     })
 });
 
-// app.post("/api/notes", function(req, res) {
-//   db.Note.insert(req.body, function(error, saved) {
-//     if (error) {
-//       console.log(error);
-//     } else {
-//       res.send(saved);
-//     }
-//   })
-// });
-
 // route to delete notes from saved articles -- DOESN'T WORK YET
 app.get("/delete/:id", function(req, res) {
   db.Note.remove(
@@ -147,21 +136,6 @@ app.get("/delete/:id", function(req, res) {
       }
     }
   )
-  // db.Article.remove(
-  //   {
-  //     note: req.params.id
-  //   },
-  //   function(error, removed) {
-  //     if (error) {
-  //       console.log(error);
-  //       res.send(error);
-  //     }
-  //     else {
-  //       console.log(removed);
-  //       res.send(removed);
-  //     }
-  //   }
-  // );
 });
 
 // server start
