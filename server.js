@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/news-scraper";
+
 //configure middleware
 app.use("/public", express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -22,7 +24,7 @@ app.engine("handlebars", exphbs({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/news-scraper", {
+mongoose.connect(MONGODB_URI, {
   useMongoClient: true
 });
 
