@@ -85,7 +85,6 @@ $(document).ready(function() {
     //adds id of article you're in to data-id
     $(".add-note").attr("data-id", noteId);
 
-    //empties saved-notes div of notes from previous art -- but they weren't there to begin with??
     $(".saved-notes").empty();
 
     $.ajax({
@@ -97,7 +96,6 @@ $(document).ready(function() {
       for (var i = 0; i < data.note.length; i++) {
         $(".saved-notes").prepend("<div class='to-be-deleted'><p>" + data.note[i].body + "<span class=' deleter deep-orange-text text-darken-3' data-id='" + data.note[i]._id + "'>X</span></p></div>");
       }
-      // This note doesn't stick
       $("#note-content").val("");
     })
 
@@ -105,22 +103,24 @@ $(document).ready(function() {
       $("#note-content").val("");
   };
 
+  function notesRerender() {
+    $(".saved-notes").empty();
+    var noteId = $(".add-note").attr("data-id");
+    $.ajax({
+      method: "GET",
+      url: "/api/articles/" + noteId
+    })
+    .then(function(data) {
+      console.log(data);
+      for (var i = 0; i < data.note.length; i++) {
+        $(".saved-notes").prepend("<div class='to-be-deleted'><p>" + data.note[i].body + "<span class=' deleter deep-orange-text text-darken-3' data-id='" + data.note[i]._id + "'>X</span></p></div>");
+      }
+      $("#note-content").val("");
+    })
+  };
+
   // click on ADD NOTE button in notes modal
   function addNote() {
-    // var noteData;
-    // var newNote = $("#note-content").val().trim();
-
-    // if (newNote) {
-    //   noteData = {
-    //     _id: $(".add-note").attr("data-id"),
-    //     body: newNote
-    //   }
-    //   $.post("/api/articles/" + noteData._id, noteData)
-    //   .then(function() {
-    //     $("#modal1").hide();
-    //     console.log("yeah man we've added a note")
-    //   })
-    // }
     var artNotes = $(this).attr("data-id");
     console.log(artNotes);
     $.ajax({
@@ -134,7 +134,6 @@ $(document).ready(function() {
       var newHotness = $("#note-content").val();
       console.log(data);
       $(".saved-notes").prepend("<div class='to-be-deleted'><p>" + newHotness + "<span class=' deleter deep-orange-text text-darken-3' data-id='" + data.note.slice(-1)[0] + "'>X</span></p></div>");
-      // This note is undefined, can't get body through post route
 
       //empties text input
       $("#note-content").val("");
@@ -154,8 +153,7 @@ $(document).ready(function() {
         toBeDeleted.remove();
         $("#note-content").val("");
       }
-    })
+    }).then(notesRerender());
   };
-
 
 });
